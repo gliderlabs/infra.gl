@@ -23,4 +23,6 @@ stages:
           export AWS_SECRET_ACCESS_KEY="$TF_VAR_secret_key"
           make setup
           make plan
-          [[ "$CIRCLE_BRANCH" = "master" ]] && make apply
+          if [[ "$CIRCLE_BRANCH" = "master" ]]; then
+            make apply
+          fi
