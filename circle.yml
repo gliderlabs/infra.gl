@@ -1,0 +1,23 @@
+version: 2
+executorType: docker
+containerInfo:
+  - image: alpine:3.5
+    cmd: ["/bin/sh"]
+stages:
+  build:
+    environment:
+      - AWS_DEFAULT_REGION: "us-east-1"
+    workDir: /src
+    steps:
+      - type: shell
+        shell: /bin/sh
+        name: Setup
+        command: |
+          apk add -U bash terraform make ca-certificates
+      - type: shell
+        name: Terraform
+        command: |
+          export AWS_ACCESS_KEY_ID="$TF_VAR_access_key"
+          export AWS_SECRET_ACCESS_KEY="$TF_VAR_secret_key"
+          make setup
+          make plan
