@@ -14,7 +14,7 @@ stages:
         pwd: /
         name: Setup
         command: |
-          apk add -U bash terraform make ca-certificates git
+          apk add -U bash terraform make ca-certificates git openssh
       - type: checkout
       - type: shell
         name: Terraform
