@@ -9,12 +9,12 @@ stages:
       - AWS_DEFAULT_REGION: "us-east-1"
     workDir: /src
     steps:
+      - type: checkout
       - type: shell
         shell: /bin/sh
         name: Setup
         command: |
           apk add -U bash terraform make ca-certificates
-      - type: checkout
       - type: shell
         name: Terraform
         command: |
