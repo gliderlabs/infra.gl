@@ -1,10 +1,10 @@
 .PHONY: plan apply destroy clean setup
 
 plan: .terraform
-	terraform plan
+	terraform plan -input=false
 
 apply: .terraform
-	terraform apply
+	terraform apply -input=false
 
 destroy: .terraform
 	terraform destroy -force
