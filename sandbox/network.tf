@@ -61,6 +61,7 @@ resource "aws_security_group" "docker_daemon" {
     protocol  = "tcp"
 
     cidr_blocks = [
+      "${var.office_ip}",
       "10.1.10.0/24",
       "10.1.20.0/24",
       "10.1.30.0/24",
@@ -114,8 +115,4 @@ resource "aws_network_acl" "dune" {
   tags {
     Name = "sandbox"
   }
-}
-
-output "vpc_id" {
-  value = "${aws_vpc.main.id}"
 }

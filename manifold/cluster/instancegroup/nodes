@@ -1,0 +1,15 @@
+apiVersion: kops/v1alpha2
+kind: InstanceGroup
+metadata:
+  creationTimestamp: "2017-02-27T20:29:14Z"
+  labels:
+    kops.k8s.io/cluster: manifold.infra.gl
+  name: nodes
+spec:
+  image: kope.io/k8s-1.5-debian-jessie-amd64-hvm-ebs-2017-01-09
+  machineType: t2.medium
+  maxSize: 2
+  minSize: 2
+  role: Node
+  subnets:
+  - us-east-1a

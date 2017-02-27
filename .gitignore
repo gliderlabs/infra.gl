@@ -1,3 +1,6 @@
 .env
 .terraform
+terraform.tfvars
 circle.local.yml
+/manifold/cluster/pki
+/manifold/cluster/secrets

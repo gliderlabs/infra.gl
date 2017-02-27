@@ -1,19 +1,19 @@
-.PHONY: plan apply destroy clean setup
+.PHONY: plan show apply destroy clean setup
 
 plan: .terraform
 	terraform plan -input=false
 
+show: .terraform
+	terraform show
+
 apply: .terraform
 	terraform apply -input=false
-
-destroy: .terraform
-	terraform destroy -force
 
 clean:
 	rm -rf .terraform
 
 test:
-	circleci-builder -v $(pwd):/src
+	circleci-builder --config circle.local.yml -v $(pwd):/src
 
 setup: clean .terraform
 
