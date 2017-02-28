@@ -14,7 +14,11 @@ stages:
         pwd: /
         name: Setup
         command: |
-          apk add -U bash terraform make ca-certificates git openssh
+          apk add -U bash terraform make ca-certificates git openssh wget unzip
+          wget https://releases.hashicorp.com/terraform/0.8.7/terraform_0.8.7_linux_amd64.zip
+          unzip terraform_0.8.7_linux_amd64.zip
+          mv terraform /usr/local/bin
+          rm terraform_0.8.7_linux_amd64.zip
       - type: checkout
       - type: shell
         name: Terraform
