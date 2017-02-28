@@ -1,7 +1,7 @@
 version: 2
 executorType: docker
 containerInfo:
-  - image: alpine:3.5
+  - image: alpine:edge
     cmd: ["/bin/sh"]
 stages:
   build:
@@ -16,9 +16,6 @@ stages:
         command: |
           apk add -U bash terraform make ca-certificates git openssh
       - type: checkout
-      - type: cache-restore
-        name: Restore cache
-        key:
       - type: shell
         name: Terraform
         command: |
