@@ -1,4 +1,4 @@
-.PHONY: plan show apply destroy clean setup zones
+.PHONY: plan show apply destroy clean setup
 
 plan: .terraform
 	terraform plan -input=false
@@ -12,17 +12,10 @@ apply: .terraform
 clean:
 	rm -rf .terraform
 
-test:
-	circleci-builder --config circle.local.yml -v $(pwd):/src
-
 setup: clean .terraform
 
-zones:
-	$(MAKE) -C dns/zones apply
-
 .terraform:
-	terraform get
 	terraform remote config \
       -backend=s3 \
       -backend-config="bucket=gl-infra" \
-      -backend-config="key=infra.tfstate"
+      -backend-config="key=zones.tfstate"
