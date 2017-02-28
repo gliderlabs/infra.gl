@@ -16,9 +16,13 @@ stages:
         command: |
           apk add -U bash terraform make ca-certificates git openssh
       - type: checkout
+      - type: cache-restore
+        name: Restore cache
+        key:
       - type: shell
         name: Terraform
         command: |
+          set -euo pipefail
           export AWS_ACCESS_KEY_ID="$TF_VAR_access_key"
           export AWS_SECRET_ACCESS_KEY="$TF_VAR_secret_key"
           make setup
