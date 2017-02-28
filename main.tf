@@ -27,7 +27,3 @@ module "manifold" {
   access_key = "${var.manifold_access_key}"
   secret_key = "${var.manifold_secret_key}"
 }
-
-output "dns" {
-  value = "${module.dns.name_servers}"
-}

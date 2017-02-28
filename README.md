@@ -10,3 +10,11 @@
 
 Only `dev.infra.gl` allows manual experimentation via user accounts.
 All others need to be modified via PRs to `master`.
+
+## Bootstrapping
+
+Although it should never be necessary, bootstrapping this infrastructure
+from scratch requires some initial steps.
+
+ 1. Create a bucket called `gl-infra` in the main account for TF state
+ 1. Create stable DNS zones with `make zones`

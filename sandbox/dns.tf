@@ -1,6 +1,7 @@
 
 resource "aws_route53_zone" "sandbox_infra_gl" {
   name = "sandbox.infra.gl"
+  comment = "${var._src}"
 }
 
 resource "aws_route53_record" "sandbox_infra_gl" {

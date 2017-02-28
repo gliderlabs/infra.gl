@@ -12,12 +12,4 @@ provider "aws" {
     region = "us-east-1"
 }
 
-output "name_servers" {
-  value = "${
-    map(
-      "gliderlabs.io", "${aws_route53_zone.gliderlabs_io.name_servers}",
-      "gliderlabs.com", "${aws_route53_zone.gliderlabs_com.name_servers}",
-      "infra.gl", "${aws_route53_zone.infra_gl.name_servers}"
-    )
-  }"
-}
+data "aws_elb_hosted_zone_id" "main" { }
