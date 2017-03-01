@@ -25,7 +25,7 @@ resource "aws_route53_record" "beta_cmd_io" {
   type = "A"
 
   alias {
-    name = "dualstack.afe66be0cfa1411e6972012bfb514bbc-1840468626.us-east-1.elb.amazonaws.com."
+    name = "dualstack.afe66be0cfa1411e6972012bfb514bbc-1840468626.us-east-1.elb.amazonaws.com"
     zone_id = "${data.aws_elb_hosted_zone_id.main.id}"
     evaluate_target_health = false
   }
@@ -37,7 +37,7 @@ resource "aws_route53_record" "cmd_io" {
   type = "A"
 
   alias {
-    name = "dualstack.alpha-cmd-io-app-srl5tbi-1256468209.us-east-1.elb.amazonaws.com."
+    name = "dualstack.alpha-cmd-io-app-srl5tbi-1256468209.us-east-1.elb.amazonaws.com"
     zone_id = "${data.aws_elb_hosted_zone_id.main.id}"
     evaluate_target_health = false
   }
