@@ -65,6 +65,8 @@ resource "aws_security_group" "docker_daemon" {
       "10.1.10.0/24",
       "10.1.20.0/24",
       "10.1.30.0/24",
+      "100.64.0.0/10",
+      "172.20.0.0/16",
     ]
   }
 }
@@ -115,4 +117,32 @@ resource "aws_network_acl" "dune" {
   tags {
     Name = "sandbox"
   }
+}
+
+resource "aws_vpc_peering_connection" "manifold" {
+  vpc_id        = "${aws_vpc.main.id}"
+  peer_vpc_id   = "${var.manifold_vpc}"
+  peer_owner_id = "${var.manifold_aws_account_id}"
+
+  auto_accept = true
+
+  accepter {
+    allow_remote_vpc_dns_resolution = true
+  }
+
+  requester {
+    allow_remote_vpc_dns_resolution = true
+  }
+}
+
+resource "aws_route" "manifold_containers" {
+  route_table_id            = "${aws_vpc.main.main_route_table_id}"
+  destination_cidr_block    = "${var.manifold_containers_cidr}"           #"100.64.0.0/10"
+  vpc_peering_connection_id = "${aws_vpc_peering_connection.manifold.id}"
+}
+
+resource "aws_route" "manifold_nodes" {
+  route_table_id            = "${aws_vpc.main.main_route_table_id}"
+  destination_cidr_block    = "${var.manifold_nodes_cidr}"                #"172.20.0.0/16"
+  vpc_peering_connection_id = "${aws_vpc_peering_connection.manifold.id}"
 }
