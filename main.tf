@@ -18,12 +18,21 @@ module "dns" {
 
 module "sandbox" {
   source = "./sandbox"
-  access_key = "${var.sandbox_access_key}"
-  secret_key = "${var.sandbox_secret_key}"
+  access_key = "${var.manifold_access_key}"
+  secret_key = "${var.manifold_secret_key}"
+  vpc_id = "${module.manifold.vpc_id}"
 }
 
 module "manifold" {
   source = "./manifold"
   access_key = "${var.manifold_access_key}"
   secret_key = "${var.manifold_secret_key}"
+}
+
+output "vpc_id" {
+  value = "${module.manifold.vpc_id}"
+}
+
+output "repos" {
+  value = "${module.manifold.repos}"
 }

@@ -1,14 +1,14 @@
 apiVersion: kops/v1alpha2
 kind: Cluster
 metadata:
-  creationTimestamp: "2017-02-27T18:16:40Z"
+  creationTimestamp: "2017-03-02T03:14:48Z"
   name: manifold.infra.gl
 spec:
   api:
     dns: {}
   channel: stable
   cloudProvider: aws
-  configBase: s3://gl-infra-manifold/manifold.infra.gl
+  configBase: s3://gl-manifold/manifold.infra.gl
   etcdClusters:
   - etcdMembers:
     - instanceGroup: master-us-east-1a
@@ -22,14 +22,15 @@ spec:
   - 0.0.0.0/0
   kubernetesVersion: 1.5.2
   masterPublicName: api.manifold.infra.gl
-  networkCIDR: 172.20.0.0/16
+  networkCIDR: 10.1.0.0/16
+  networkID: vpc-199edb7f
   networking:
     kubenet: {}
   nonMasqueradeCIDR: 100.64.0.0/10
   sshAccess:
   - 0.0.0.0/0
   subnets:
-  - cidr: 172.20.32.0/19
+  - cidr: 10.1.32.0/19
     name: us-east-1a
     type: Public
     zone: us-east-1a
