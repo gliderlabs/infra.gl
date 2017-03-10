@@ -1,0 +1,14 @@
+version: 2
+executorType: docker
+containerInfo:
+  - image: gliderlabs/ci:latest
+    cmd: ["/bin/bash"]
+stages:
+  build:
+    workDir: /src
+    steps:
+      - type: shell
+        name: Work
+        command: |
+          env
+          ps

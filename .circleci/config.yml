@@ -1,0 +1,61 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: gliderlabs/ci:build-64
+        command: ["/bin/bash"]
+    environment:
+      - AWS_DEFAULT_REGION: "us-east-1"
+    working_directory: /src
+    steps:
+      - setup_docker_engine
+      - checkout
+
+      - restore_cache:
+          key: changed
+      - run:
+          name: Build CI image
+          command: |
+            if dir-changed "ci"; then
+              docker build -t gliderlabs/ci ./ci
+              hub-push gliderlabs/ci build-$CIRCLE_BUILD_NUM
+              changes-applied "ci"
+            fi
+      - save_cache:
+          key:  changed-{{ epoch }}
+          paths:
+            - /.changed
+
+      - run:
+          name: Terraform plan
+          command: make plan
+      - run:
+          name: Terraform apply (master)
+          command: |
+            if is-branch "master"; then
+              make apply
+            fi
+
+      - run:
+          name: Kops update (master)
+          command: |
+            source .circleci/env
+            if is-branch "master"; then
+              if is-cluster-config-current; then
+                if dir-changed "manifold/cluster"; then
+                  export AWS_ACCESS_KEY_ID="$TF_VAR_manifold_access_key"
+                  export AWS_SECRET_ACCESS_KEY="$TF_VAR_manifold_secret_key"
+                  export KOPS_FEATURE_FLAGS="+DrainAndValidateRollingUpdate"
+                  make -C manifold config
+                  make -C manifold push
+                  make -C manifold apply
+                  changes-applied "manifold/cluster"
+                fi
+              else
+                echo "!! Cluster configuration needs to be pulled and committed"
+              fi
+            fi
+      - save_cache:
+          key:  changed-{{ epoch }}
+          paths:
+            - /.changed

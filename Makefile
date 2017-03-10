@@ -7,13 +7,13 @@ show: .terraform
 	terraform show
 
 apply: .terraform
-	terraform apply -input=false
+	terraform apply -parallelism=20 -input=false
 
 clean:
 	rm -rf .terraform
 
 test:
-	circleci-builder --config circle.local.yml -v $(pwd):/src
+	circleci-builder build --config circle.yml -v $(shell pwd):/src
 
 setup: clean .terraform
 

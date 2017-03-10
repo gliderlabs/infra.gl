@@ -1,0 +1,12 @@
+
+is-cluster-config-current() {
+  [[ "$(config-get-vpc)" == "$(state-get-vpc)" ]]
+}
+
+config-get-vpc() {
+  cat manifold/cluster/config | grep networkID | cut -f4 -d' '
+}
+
+state-get-vpc() {
+  curl -Ls https://s3.amazonaws.com/gl-infra/infra.tfstate | jq -r '.modules[0].outputs.vpc_id.value'
+}
