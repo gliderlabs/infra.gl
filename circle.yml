@@ -26,8 +26,7 @@ stages:
           set -euo pipefail
           export AWS_ACCESS_KEY_ID="$TF_VAR_access_key"
           export AWS_SECRET_ACCESS_KEY="$TF_VAR_secret_key"
-          make setup
           make plan
-          if [[ "$CIRCLE_BRANCH" = "master" ]]; then
-            make apply
-          fi
+          #if [[ "$CIRCLE_BRANCH" = "master" ]]; then
+          #  make apply
+          #fi

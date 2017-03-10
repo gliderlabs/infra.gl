@@ -4,9 +4,6 @@ variable "secret_key" {}
 variable "manifold_access_key" {}
 variable "manifold_secret_key" {}
 
-variable "sandbox_access_key" {}
-variable "sandbox_secret_key" {}
-
 module "dns" {
   source = "./dns"
   access_key = "${var.access_key}"
