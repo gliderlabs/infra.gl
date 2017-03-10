@@ -10,6 +10,9 @@ validate:
 plan: validate
 	kops update cluster --state s3://$(BUCKET) $(DOMAIN)
 
+config:
+	kops export kubecfg --state s3://$(BUCKET) $(DOMAIN)
+
 apply:
 	kops update cluster --state s3://$(BUCKET) $(DOMAIN) --yes
 	kops rolling-update cluster --state s3://$(BUCKET) $(DOMAIN) --yes
