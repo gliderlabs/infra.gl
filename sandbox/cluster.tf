@@ -17,7 +17,7 @@ resource "aws_key_pair" "key" {
 data "template_file" "cloud_config" {
     template = "${file("${path.module}/cloud-config.yml")}"
     vars {
-      authorized_key = "${module.keys.matt}"
+      authorized_key = "${module.keys.jeff}"
     }
 }
 
@@ -43,5 +43,4 @@ resource "aws_instance" "node" {
     create_before_destroy = true
   }
 
-  depends_on = ["aws_internet_gateway.main"]
 }

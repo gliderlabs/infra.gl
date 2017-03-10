@@ -1,29 +1,6 @@
-resource "aws_vpc" "main" {
-  cidr_block           = "10.1.0.0/16"
-  enable_dns_hostnames = true
-
-  tags {
-    Name = "sandbox.vpc"
-  }
-}
-
-resource "aws_internet_gateway" "main" {
-  vpc_id     = "${aws_vpc.main.id}"
-  depends_on = ["aws_vpc.main"]
-
-  tags {
-    Name = "sandbox.ig"
-  }
-}
-
-resource "aws_route" "internet_access" {
-  route_table_id         = "${aws_vpc.main.main_route_table_id}"
-  gateway_id             = "${aws_internet_gateway.main.id}"
-  destination_cidr_block = "0.0.0.0/0"
-}
 
 resource "aws_subnet" "main" {
-  vpc_id                  = "${aws_vpc.main.id}"
+  vpc_id                  = "${var.vpc_id}"
   cidr_block              = "10.1.1.0/24"
   map_public_ip_on_launch = true
 
@@ -34,7 +11,7 @@ resource "aws_subnet" "main" {
 
 resource "aws_security_group" "default" {
   name   = "sandbox.sg.default"
-  vpc_id = "${aws_vpc.main.id}"
+  vpc_id = "${var.vpc_id}"
 
   ingress {
     from_port   = 22
@@ -53,7 +30,7 @@ resource "aws_security_group" "default" {
 
 resource "aws_security_group" "docker_daemon" {
   name   = "sandbox.sg.docker-daemon"
-  vpc_id = "${aws_vpc.main.id}"
+  vpc_id = "${var.vpc_id}"
 
   ingress {
     from_port = 2376
@@ -62,15 +39,13 @@ resource "aws_security_group" "docker_daemon" {
 
     cidr_blocks = [
       "${var.office_ip}",
-      "10.1.10.0/24",
-      "10.1.20.0/24",
-      "10.1.30.0/24",
+      "10.1.0.0/16",
     ]
   }
 }
 
 resource "aws_network_acl" "dune" {
-  vpc_id     = "${aws_vpc.main.id}"
+  vpc_id     = "${var.vpc_id}"
   subnet_ids = ["${aws_subnet.main.id}"]
 
   # Ephemeral Ports

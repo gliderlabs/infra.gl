@@ -11,22 +11,24 @@ variable "count" {
   default = 2
 }
 
+variable "region" {
+  default = "us-east-1"
+}
+
 variable "office_ip" {
   default = "136.62.65.95/32"
 }
 
+variable "vpc_id" { type = "string" }
+
 provider "aws" {
     access_key = "${var.access_key}"
     secret_key = "${var.secret_key}"
-    region = "us-east-1"
+    region = "${var.region}"
 }
 
 module "keys" {
   source = "../keys"
-}
-
-output "vpc_id" {
-  value = "${aws_vpc.main.id}"
 }
 
 output "name_servers" {
