@@ -1,0 +1,14 @@
+set -euo pipefail
+
+mkdir -p /tmp/test-results
+
+if [[ -n $KUBE_CONFIG ]]; then
+  mkdir -p ~/.kube
+  echo $KUBE_CONFIG | base64 --decode --ignore-garbage > ~/.kube/config
+fi
+
+ecr-push() {
+  eval $(aws ecr get-login --region $AWS_DEFAULT_REGION)
+  docker tag $1 $2:$CIRCLE_BUILD_NUM
+  docker push $2:$CIRCLE_BUILD_NUM
+}
