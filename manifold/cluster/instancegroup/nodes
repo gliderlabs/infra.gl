@@ -7,7 +7,7 @@ metadata:
   name: nodes
 spec:
   image: kope.io/k8s-1.5-debian-jessie-amd64-hvm-ebs-2017-01-09
-  machineType: t2.medium
+  machineType: m3.medium
   maxSize: 2
   minSize: 2
   role: Node
