@@ -19,6 +19,7 @@ data "template_file" "cloud_config" {
 
   vars {
     authorized_key = "${module.keys.jeff}"
+    datadog_key    = "${var.datadog_key}"
   }
 }
 
