@@ -10,15 +10,16 @@ data "aws_ami" "ubuntu" {
 }
 
 resource "aws_key_pair" "key" {
-  key_name = "sandbox"
+  key_name   = "sandbox"
   public_key = "${module.keys.matt}"
 }
 
 data "template_file" "cloud_config" {
-    template = "${file("${path.module}/cloud-config.yml")}"
-    vars {
-      authorized_key = "${module.keys.jeff}"
-    }
+  template = "${file("${path.module}/cloud-config.yml")}"
+
+  vars {
+    authorized_key = "${module.keys.jeff}"
+  }
 }
 
 resource "aws_instance" "node" {
@@ -42,5 +43,4 @@ resource "aws_instance" "node" {
   lifecycle {
     create_before_destroy = true
   }
-
 }
