@@ -50,7 +50,7 @@ resource "null_resource" "cluster_setup" {
       kubectl get nodes
       kubectl apply -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/kubernetes-dashboard/v1.5.0.yaml
     	kubectl apply -f https://raw.githubusercontent.com/kubernetes/kops/master/addons/monitoring-standalone/v1.2.0.yaml
-      kubectl apply -f ${path.module}/specs/namespaces.yaml
+      kubectl apply -f ${path.module}/specs
 EOT
   }
 }
