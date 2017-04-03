@@ -3,6 +3,8 @@ variable "_src" { default = "github.com/gliderlabs/infra.gl/sandbox" }
 variable "access_key" { type = "string" }
 variable "secret_key" { type = "string" }
 
+variable "datadog_key" { type = "string" }
+
 variable "size" {
   default = "t2.medium"
 }

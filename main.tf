@@ -4,6 +4,8 @@ variable "secret_key" {}
 variable "manifold_access_key" {}
 variable "manifold_secret_key" {}
 
+variable "datadog_key" {}
+
 module "dns" {
   source = "./dns"
   access_key = "${var.access_key}"
@@ -17,6 +19,7 @@ module "sandbox" {
   source = "./sandbox"
   access_key = "${var.manifold_access_key}"
   secret_key = "${var.manifold_secret_key}"
+  datadog_key = "${var.datadog_key}"
   vpc_id = "${module.manifold.vpc_id}"
 }
 
