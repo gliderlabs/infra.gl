@@ -9,6 +9,7 @@ runcmd:
   - curl -fsSL https://get.docker.com/gpg | sudo apt-key add -
   - systemctl enable docker-tls-tcp.socket
   - systemctl enable dd-agent.service
+  - systemctl start dd-agent.service
 
 write_files:
 - path: /etc/systemd/system/docker.service.d/10-dune.conf
