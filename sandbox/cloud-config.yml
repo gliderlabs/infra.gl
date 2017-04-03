@@ -8,6 +8,7 @@ runcmd:
   - curl -fsSL https://get.docker.com/ | sh
   - curl -fsSL https://get.docker.com/gpg | sudo apt-key add -
   - systemctl enable docker-tls-tcp.socket
+  - systemctl enable dd-agent.service
 
 write_files:
 - path: /etc/systemd/system/docker.service.d/10-dune.conf
@@ -27,7 +28,7 @@ write_files:
 
     [Install]
     WantedBy=sockets.target
-- path: /etc/systemd/system/dd-agent.conf
+- path: /etc/systemd/system/dd-agent.service
   content: |
     [Unit]
     Description=Datadog Agent
@@ -45,11 +46,13 @@ write_files:
     ExecStartPre=-/usr/bin/docker rm dd-agent
     ExecStart=/usr/bin/docker run --name dd-agent \
         -h %H \
+        --privileged \
+        --userns=host \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -v /proc/mounts:/host/proc/mounts:ro \
         -v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro \
         -e API_KEY=${datadog_key} \
-        datadog/docker-dd-agent"
+        datadog/docker-dd-agent
     ExecStop=/usr/bin/docker stop dd-agent
 
 power_state:
