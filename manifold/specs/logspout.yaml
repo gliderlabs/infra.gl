@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: logspout
+  namespace: gliderlabs
+spec:
+  template:
+    metadata:
+      name: logspout
+      labels:
+        app: logspout
+    spec:
+      containers:
+      - image: gliderlabs/logspout:v3.1
+        imagePullPolicy: Always
+        name: logspout
+        args: ["syslog+tls://logs5.papertrailapp.com:31048"]
+        env:
+          - name: DEBUG
+            value: "true"
+          - name: LOGSPOUT
+            value: ignore
+          - name: SYSLOG_HOSTNAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: SYSLOG_TAG
+            value: "{{index .Container.Config.Labels \"io.kubernetes.pod.namespace\"}}/{{index .Container.Config.Labels \"io.kubernetes.pod.name\"}}"
+        volumeMounts:
+          - name: dockersocket
+            mountPath: /var/run/docker.sock
+      volumes:
+        - hostPath:
+            path: /var/run/docker.sock
+          name: dockersocket
