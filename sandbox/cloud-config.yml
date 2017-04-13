@@ -18,7 +18,7 @@ write_files:
   content: |
     [Service]
     ExecStart=
-    ExecStart=/usr/bin/dockerd -H fd:// --iptables=false --icc=false --userns-remap=default
+    ExecStart=/usr/bin/dockerd -H fd:// --iptables=false --userns-remap=default
 - path: /etc/systemd/system/docker-tls-tcp.socket
   content: |
     [Unit]
