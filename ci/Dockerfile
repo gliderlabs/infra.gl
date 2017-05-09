@@ -1,11 +1,11 @@
-FROM alpine:3.5
+#FROM alpine:3.5
+FROM golang:1.8-alpine
 
 RUN mkdir -p /var/cache/apk && ln -s /var/cache/apk /etc/apk/cache
 RUN apk -U add \
   docker \
   bash \
   git \
-  go \
   build-base \
   glide \
   openssh \
