@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: gliderlabs/ci:build-64
+      - image: gliderlabs/ci:build-2
         command: ["/bin/bash"]
     environment:
       - AWS_DEFAULT_REGION: "us-east-1"
@@ -13,14 +13,6 @@ jobs:
 
       - restore_cache:
           key: changed
-      - run:
-          name: Build CI image
-          command: |
-            if dir-changed "ci"; then
-              docker build -t gliderlabs/ci ./ci
-              hub-push gliderlabs/ci build-$CIRCLE_BUILD_NUM
-              changes-applied "ci"
-            fi
       - save_cache:
           key:  changed-{{ epoch }}
           paths:
