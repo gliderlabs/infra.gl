@@ -127,6 +127,14 @@ resource "aws_route53_record" "slack_gliderlabs_com" {
   records = ["glider-slackin.herokuapp.com."]
 }
 
+resource "aws_route53_record" "blog_gliderlabs_com" {
+  zone_id = "${data.aws_route53_zone.gliderlabs_com.zone_id}"
+  name = "blog.gliderlabs.com"
+  type = "CNAME"
+  ttl = "300"
+  records = ["63f04f4155d2cdad18334eb33f6f785f.blog.gliderlabs.com."]
+}
+
 resource "aws_route53_record" "www_gliderlabs_com" {
   zone_id = "${data.aws_route53_zone.gliderlabs_com.zone_id}"
   name = "www.gliderlabs.com"
