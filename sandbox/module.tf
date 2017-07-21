@@ -10,7 +10,7 @@ variable "size" {
 }
 
 variable "count" {
-  default = 2
+  default = 0
 }
 
 variable "region" {
